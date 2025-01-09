@@ -1,0 +1,221 @@
+@page "/student"
+@rendermode InteractiveServer
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main {
+        display: flex;
+        border: 1px solid black;
+        justify-content: space-around;
+        width: 80vw;
+        height: 70vh;
+    }
+
+    .StudentAdd {
+        width: 40%;
+        height: 80%;
+        border: 1px solid black;
+        margin: auto;
+    }
+
+    .StudentRemove {
+        width: 40%;
+        height: 80%;
+        border: 1px solid black;
+        margin: auto;
+    }
+
+    .topic {
+        text-align: center;
+    }
+
+    label {
+        width: 35%;
+    @* margin-left: 5%; *@
+    }
+
+    .inputs {
+        margin: 3% 5%;
+    @* border:1px solid black; *@
+    }
+
+   .main input {
+        width: 50%;
+    }
+
+    .StudentRecord {
+        margin-top: 3vh;
+        height: auto;
+        width: 100%;
+        border: 1px solid black;
+        padding:25px;
+    }
+    .StudentRecord input{
+        width:100%;
+    }
+    .StudentRecord h1
+    {
+   text-align: center;
+    }
+
+    .List {
+        display: block;
+        margin: auto;
+    }
+    
+    table {
+        width:90%;
+        margin:auto;
+    }
+    tr{
+        height:5vh;
+    }
+    table,th,td
+    {border:1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    }
+    .Edit
+    {
+        width:4vw;
+        height:3vh;
+        margin:5px auto;
+    }
+  
+</style>
+<div class="main">
+    <div class="StudentAdd">
+        <p>
+        <h2 class="topic">Add new Student</h2>
+        </p>
+        <div class="inputs"> <label>Enter Name:</label><input type="text" @bind=name></div>
+        <div class="inputs"> <label>Enter Gender:</label><select name="" id="" @bind=gender>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Others">Others</option>
+            </select></div>
+        <div class="inputs"> <label>Enter Address:</label><input type="text" @bind=address></div>
+        <div class="inputs"> <label>Enter Phone No.:</label><input type="text" @bind=Phone></div>
+        <div class="inputs"> <label>Enter Faculty:</label><input type="text" @bind=Faculty></div>
+        <div class="inputs"> <label>Enter Semester:</label><select name="" id="" @bind=Semester>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select></div>
+        <div class="inputs"> <label>Enter ID:</label><input type="text" @bind=Id></div>
+        <button @onclick="()=>Listing()" class="List">Enter Student's Details</button>
+    </div>
+    <div class="StudentRemove">
+
+        <p>
+        <h2 class="topic">Remove Student</h2>
+        </p>
+        <div class="inputs"> <label>Enter Name:</label><input type="text"></div>
+        <div class="inputs"> <label>Enter Gender:</label><select name="" id="">
+                <option>Female</option>
+                <option>Male</option>
+                <option>Others</option>
+            </select></div>
+        <div class="inputs"> <label>Enter ID:</label><input type="text"></div>
+    </div>
+
+</div>
+<div class="StudentRecord">
+    @* <button @onclick="()=>AddStudent()">Student's Record</button> *@
+    <h1>All Students Records</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>Phone No.</th>
+                <th>Faculty</th>
+                <th>Semester</th>
+                <th>Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in StudentList)
+            {
+                <tr>@if(s.IsEdit==false){
+                    <td>@s.Name</td>
+                    <td>@s.Address</td>
+                    <td>@s.Gender</td>
+                    <td>@s.PhoneNo</td>
+                    <td>@s.Faculty</td>
+                    <td>@s.Semester</td>
+                    <td>@s.Id</td>
+                    }else{
+                        <td><input type="text" @bind=s.Name></td>
+                        <td><input type="text" @bind=s.Address></td>
+                        <td><input type="text" @bind=s.Gender></td>
+                        <td><input type="text" @bind=s.PhoneNo></td>
+                        <td><input type="text" @bind=s.Faculty></td>
+                        <td><input type="text" @bind=s.Semester></td>
+                        <td><input type="text" @bind=s.Id></td>
+                    }
+                <button @onclick="()=>Edit(s)" class="Edit">
+                    @if(s.IsEdit==false)
+                    {
+                        <span>Edit</span>
+                    }
+                    else{
+                        <span>Save</span>
+                    }
+                </button>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+@code
+{
+    private string name = "";
+    private string address = "";
+    private string gender = "";
+    private string Phone = "";
+    private string Id = "";
+    private string Faculty = "";
+    private string Semester = "";
+    public List<student> StudentList = new List<student>()
+{
+new student("1", "Suman", "Male", "Devinagar", "0299028982", "BScCSIT", "3"),
+new student("2", "Saroj", "Male", "Drivertole", "786382638", "BScCSIT", "3"),
+new student("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
+};
+
+    public void Listing()
+    {
+        if (name != "" && Id != "" && Faculty != "" && Semester != "" && address != "" && gender != "" && Phone != "")
+        {
+            StudentList.Add(new student(Id, name, gender, address, Phone, Faculty, Semester));
+            Clear();
+        }
+    }
+    public void Clear()
+    {
+        name = "";
+        Id = "";
+        Faculty = "";
+        Semester = "";
+        address = "";
+        gender = "";
+        Phone = "";
+    }
+    public void Edit(student s)
+    {
+        s.IsEdit=!s.IsEdit;
+    }
+
+}
