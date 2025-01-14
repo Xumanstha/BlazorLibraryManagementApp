@@ -139,7 +139,10 @@
                 <option value="8">8</option>
             </select></div>
         <div class="inputs"> <label>Enter ID:</label><input type="text" @bind=Id></div>
-        <button @onclick="()=>Check(Id)" class="List">Enter Student's Details</button>
+        <button @onclick="()=>Listing()" class="List">Enter Student's Details</button>
+        @if(std!=null){
+            <p>This Id is already taken</p>
+        }
     </div>
     <div class="StudentRemove">
 
@@ -214,7 +217,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var s in StudentList)
+            @foreach (var s in list.students)
             {
                 <tr>@if (s.IsEdit == false)
                     {
@@ -245,6 +248,7 @@
 </div>
 @code
 {
+    StudentList list=new StudentList();
     private student? std;
     private string name = "";
     private string address = "";
@@ -254,21 +258,20 @@
     private string? Id1;
     private string Faculty = "";
     private string Semester = "";
-    public List<student> StudentList = new List<student>()
+    @* public List<student> StudentList = new List<student>()
 {
 new student("1", "Suman", "Male", "Devinagar", "0299028982", "BScCSIT", "3"),
 new student("2", "Saroj", "Male", "Drivertole", "786382638", "BScCSIT", "3"),
 new student("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
-};
-public void Check(string i)
-{
-    StudentDetails(i);
-}
+}; *@
+
     public void Listing()
     {
-        if (name != "" && Id != "" && Faculty != "" && Semester != "" && address != "" && gender != "" && Phone != "")
+        StudentDetails(Id);
+        
+        if (std==null&&name != "" && Id != "" && Faculty != "" && Semester != "" && address != "" && gender != "" && Phone != "")
         {
-            StudentList.Add(new student(Id, name, gender, address, Phone, Faculty, Semester));
+            list.students.Add(new student(Id, name, gender, address, Phone, Faculty, Semester));
             Clear();
         }
     }
@@ -282,6 +285,7 @@ public void Check(string i)
         gender = "";
         Phone = "";
         Id1=null;
+        std=null;
     }
     public void Edit(student s)
     {
@@ -290,12 +294,11 @@ public void Check(string i)
 
     public void StudentDetails(string s)
     {
-        std = StudentList.Find(x => x.Id == s);
+        std = list.students.Find(x => x.Id == s);
     }
     public void Remove(student s)
     {
-      StudentList.Remove(s);
-      std=null;
+    list.students.Remove(s);
       Clear();
     }
 }
