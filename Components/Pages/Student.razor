@@ -12,19 +12,19 @@
         border: 1px solid black;
         justify-content: space-around;
         width: 80vw;
-        height: 70vh;
+        height: 90vh;
     }
 
     .StudentAdd {
         width: 40%;
-        height: 80%;
+        height: 90%;
         border: 1px solid black;
         margin: auto;
     }
 
     .StudentRemove {
         width: 40%;
-        height: 80%;
+        height: 90%;
         border: 1px solid black;
         margin: auto;
     }
@@ -43,7 +43,7 @@
     @* border:1px solid black; *@
     }
 
-   .main input {
+    .main input {
         width: 50%;
     }
 
@@ -52,40 +52,67 @@
         height: auto;
         width: 100%;
         border: 1px solid black;
-        padding:25px;
+        padding: 25px;
     }
-    .StudentRecord input{
-        width:100%;
+
+    .StudentRecord input {
+        width: 100%;
     }
-    .StudentRecord h1
-    {
-   text-align: center;
+
+    .StudentRecord h1 {
+        text-align: center;
     }
 
     .List {
         display: block;
         margin: auto;
     }
-    
+
     table {
-        width:90%;
-        margin:auto;
+        width: 90%;
+        margin: auto;
     }
-    tr{
-        height:5vh;
+
+    tr {
+        height: 5vh;
     }
-    table,th,td
-    {border:1px solid black;
-    border-collapse: collapse;
-    text-align: center;
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
     }
-    .Edit
+
+    .Edit {
+        width: 4vw;
+        height: 3vh;
+       position:absolute;
+       right:40%;
+       top:78%;
+    }
+    .Edit:active{
+        background-color:green;
+    }
+    .Studentremove{
+        @* display:block; *@
+        position:absolute;
+        @* left:0px; *@
+       right:30%;
+       top:88%;
+    } 
+    .Studentremove:active{
+        background-color: red;
+    }
+    .StdDetails
     {
-        width:4vw;
-        height:3vh;
-        margin:5px auto;
+    position:relative;
+    @* border:1px solid black; *@
+    margin-top: 5%;
+    padding:20px;
+    height:55%;
     }
-  
 </style>
 <div class="main">
     <div class="StudentAdd">
@@ -112,12 +139,12 @@
                 <option value="8">8</option>
             </select></div>
         <div class="inputs"> <label>Enter ID:</label><input type="text" @bind=Id></div>
-        <button @onclick="()=>Listing()" class="List">Enter Student's Details</button>
+        <button @onclick="()=>Check(Id)" class="List">Enter Student's Details</button>
     </div>
     <div class="StudentRemove">
 
         <p>
-        <h2 class="topic">Remove Student</h2>
+        <h2 class="topic">Search Student</h2>
         </p>
         <div class="inputs"> <label>Enter Name:</label><input type="text"></div>
         <div class="inputs"> <label>Enter Gender:</label><select name="" id="">
@@ -125,13 +152,55 @@
                 <option>Male</option>
                 <option>Others</option>
             </select></div>
-        <div class="inputs"> <label>Enter ID:</label><input type="text"></div>
+        <div class="inputs"> <label>Enter ID:</label><input type="text" @bind=Id1></div>
+
+        <button @onclick="()=>StudentDetails(Id1)" class="List">Enter for Details</button>
+        <div class="StdDetails">
+       @if(Id1!=null)
+       {
+        @if (std != null)
+        {
+               <button @onclick="()=>Edit(std)" class="Edit">
+                        @if (std.IsEdit == false)
+                        {
+                            <span>Edit</span>
+                        }
+                        else
+                        {
+                            <span>Save</span>
+                        }
+                    </button>
+        <button class="Studentremove" @onclick="()=>Remove(std)">Click to Remove Student</button>
+        @if(std.IsEdit==false)
+        {
+            <p>Name:@std.Name</p>
+            <p>Gender:@std.Gender</p>
+            <p>Phone No.:@std.PhoneNo</p>
+            <p>Address:@std.Address</p>
+            <p>Faculty:@std.Faculty</p>
+            <p>Semester:@std.Semester</p>
+            }else{
+                 <p> <label>Name:</label><input type="text" @bind=std.Name></p>
+                 <p>Gender:@std.Gender</p>
+                   <p> <label>Phone No.:</label>   <input type="text" @bind=std.PhoneNo></p>
+                   <p>   <label>Address:</label> <input type="text" @bind=std.Address></p>
+                  <p>   <label>Faculty:</label><input type="text" @bind=std.Faculty></p>
+                   <p>     <label>Semester</label><input type="text" @bind=std.Semester></p>
+                
+            }
+        }
+        else
+        {
+            <p>There is No Record of This Student</p>
+        }
+        }
+        </div>
     </div>
 
 </div>
 <div class="StudentRecord">
     @* <button @onclick="()=>AddStudent()">Student's Record</button> *@
-    <h1>All Students Records</h1>
+    <h1>All Student's Records</h1>
     <table>
         <thead>
             <tr>
@@ -147,15 +216,18 @@
         <tbody>
             @foreach (var s in StudentList)
             {
-                <tr>@if(s.IsEdit==false){
-                    <td>@s.Name</td>
-                    <td>@s.Address</td>
-                    <td>@s.Gender</td>
-                    <td>@s.PhoneNo</td>
-                    <td>@s.Faculty</td>
-                    <td>@s.Semester</td>
-                    <td>@s.Id</td>
-                    }else{
+                <tr>@if (s.IsEdit == false)
+                    {
+                        <td>@s.Name</td>
+                        <td>@s.Address</td>
+                        <td>@s.Gender</td>
+                        <td>@s.PhoneNo</td>
+                        <td>@s.Faculty</td>
+                        <td>@s.Semester</td>
+                        <td>@s.Id</td>
+                    }
+                    else
+                    {
                         <td><input type="text" @bind=s.Name></td>
                         <td><input type="text" @bind=s.Address></td>
                         <td><input type="text" @bind=s.Gender></td>
@@ -164,15 +236,7 @@
                         <td><input type="text" @bind=s.Semester></td>
                         <td><input type="text" @bind=s.Id></td>
                     }
-                <button @onclick="()=>Edit(s)" class="Edit">
-                    @if(s.IsEdit==false)
-                    {
-                        <span>Edit</span>
-                    }
-                    else{
-                        <span>Save</span>
-                    }
-                </button>
+                 
                 </tr>
             }
         </tbody>
@@ -181,11 +245,13 @@
 </div>
 @code
 {
+    private student? std;
     private string name = "";
     private string address = "";
     private string gender = "";
     private string Phone = "";
     private string Id = "";
+    private string? Id1;
     private string Faculty = "";
     private string Semester = "";
     public List<student> StudentList = new List<student>()
@@ -194,7 +260,10 @@ new student("1", "Suman", "Male", "Devinagar", "0299028982", "BScCSIT", "3"),
 new student("2", "Saroj", "Male", "Drivertole", "786382638", "BScCSIT", "3"),
 new student("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
 };
-
+public void Check(string i)
+{
+    StudentDetails(i);
+}
     public void Listing()
     {
         if (name != "" && Id != "" && Faculty != "" && Semester != "" && address != "" && gender != "" && Phone != "")
@@ -212,10 +281,21 @@ new student("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
         address = "";
         gender = "";
         Phone = "";
+        Id1=null;
     }
     public void Edit(student s)
     {
-        s.IsEdit=!s.IsEdit;
+        s.IsEdit = !s.IsEdit;
     }
 
+    public void StudentDetails(string s)
+    {
+        std = StudentList.Find(x => x.Id == s);
+    }
+    public void Remove(student s)
+    {
+      StudentList.Remove(s);
+      std=null;
+      Clear();
+    }
 }

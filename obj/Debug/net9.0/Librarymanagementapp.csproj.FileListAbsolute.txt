@@ -77,3 +77,4 @@ C:\Users\User\Desktop\Blazor\Librarymanagementapp\obj\Debug\net9.0\Librarymanage
 C:\Users\User\Desktop\Blazor\Librarymanagementapp\obj\Debug\net9.0\ref\Librarymanagementapp.dll
 C:\Users\User\Desktop\Blazor\Librarymanagementapp\obj\Debug\net9.0\compressed\j6psxp0wva-9hetu8p8gw.gz
 C:\Users\User\Desktop\Blazor\Librarymanagementapp\obj\Debug\net9.0\compressed\y6m1p6d9h7-9hetu8p8gw.gz
+C:\Users\User\Desktop\Blazor\Librarymanagementapp\obj\Debug\net9.0\Librarymanagementapp.sourcelink.json
