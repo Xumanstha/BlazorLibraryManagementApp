@@ -1,0 +1,151 @@
+@page "/book"
+@rendermode InteractiveServer
+<style>
+    .main{
+        display:flex;
+        justify-content:space-around;
+        width:100%;
+        height:80vh;
+        border: 1px solid black;
+    }
+    .borrow{
+        width:45%;
+        height:80%;
+        margin:auto;
+        border:1px solid black;
+    }
+    .addbook{
+          width:45%;
+        height:80%;
+        margin:auto;
+        border:1px solid black;
+    }
+    .borrow button{
+        display:block;
+        margin:auto;
+    }
+   .borrow .inputs
+    {display: flex;
+    @* justify-content: space-around; *@
+    @* border:1px solid black; *@
+    width:80%;
+    margin: 15px auto;
+    }
+    .inputs label
+    {
+        width:30%;
+    }
+    .addbook .inputs
+    {
+    display: flex;
+    width:80%;
+    margin: 15px auto;
+    }
+    .addbook .inputs label{
+        width:45%;
+    }
+    .addbook button{
+           display:block;
+        margin:auto;
+    }
+    .List
+    {
+        height:auto;
+        width:90%;
+        border:1px solid black;
+        margin:20px auto;
+    }
+     table {
+        width: 90%;
+        margin: auto;
+    }
+
+    tr {
+        height: 5vh;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+</style>
+<div class="main">
+<div class="borrow">
+<h2 style="text-align:center">Borrow Book</h2>
+<div class="inputs"><label>Title of Book:</label>
+<input type="text"></div>
+<div class="inputs"><label>Name of Student:</label>
+<input type="text"></div>
+<div class="inputs">
+    <label>Code of book:</label>
+    <input type="text">
+</div>
+<div class="inputs">
+    <label>Id of student:</label>
+    <input type="text">
+</div>
+<button>Click to borrow</button>
+</div>
+<div class="addbook">
+<h2 style="text-align:center">Add New Book</h2>
+<div class="inputs"><label>Title of Book:</label>
+<input type="text"></div>
+<div class="inputs"><label>Name of Author:</label>
+<input type="text"></div>
+<div class="inputs">
+    <label>Code of book:</label>
+    <input type="text">
+</div>
+<div class="inputs">
+    <label>No.of Book:</label>
+    <input type="number">
+</div>
+<div class="inputs">
+    <label>Date of Book Published:</label>
+    <input type="date">
+</div>
+<button>Click to Add</button>
+</div>
+</div>
+<div class="List">
+    <h2 style="text-align:center;">List of Book</h2>
+<table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Code</th>
+                <th>Published Date</th>
+                <th>Book Count</th>
+                  <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var b in list.books)
+            {
+<tr>
+    <td>@b.Title</td>
+    <td>@b.Author</td>
+    <td>@b.Id</td>
+    <td>@b.PublishDate</td>
+    <td>@b.BookCount</td>
+    <td>@if(b.BookCount!=0)
+        {
+            <span>Yes</span>
+        }else{
+            <span>No</span>
+        }
+    </td>
+</tr>
+}
+        </tbody>
+</table>
+</div>
+@code
+{
+ BookList list=new BookList();
+
+}

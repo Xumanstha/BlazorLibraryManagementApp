@@ -139,8 +139,8 @@
                 <option value="8">8</option>
             </select></div>
         <div class="inputs"> <label>Enter ID:</label><input type="text" @bind=Id></div>
-        <button @onclick="()=>Listing()" class="List">Enter Student's Details</button>
-        @if(std!=null){
+        <button @onclick="Listing" class="List">Enter Student's Details</button>
+        @if(std!=null&&Id1==null){
             <p>This Id is already taken</p>
         }
     </div>

@@ -8,6 +8,7 @@
      public string? Faculty {  get; set; }
      public string? Semester {  get; set; }
      public bool IsEdit{get; set;}=false;
+     public List<string> BorrowedBooks=new List<string>();
      public student (string id,string name,string gender,string address,string phoneno,string faculty,string Semester)
      {
         Id=id;
