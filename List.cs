@@ -1,18 +1,18 @@
 public class StudentList
 {
-       public List<student> students = new List<student>()
+       public static List<StudentStructure> students = new List<StudentStructure>()
 {
-new student("1", "Suman", "Male", "Devinagar", "0299028982", "BScCSIT", "3"),
-new student("2", "Saroj", "Male", "Drivertole", "786382638", "BScCSIT", "3"),
-new student("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
+new StudentStructure("1", "Suman", "Male", "Devinagar", "0299028982", "BScCSIT", "3",3,new List<string>{"C_Programming","C++","Java"}),
+new StudentStructure("2", "Saroj", "Male", "Drivertole", "786382638", "BScCSIT", "3"),
+new StudentStructure("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
 };
 }
 public class BookList
 {
-       public List<Book> books = new List<Book>()
+       public static List<BookStructure> books = new List<BookStructure>()
        {
-                 new Book("C_Programming", "hari","cs15",5,"05/06/2003"),
-   new Book("C++","Ram","CPP123",8,"04/15/2002"),
-   new Book("Java","Sita","JV123",3,"07/20/2005")
+                 new BookStructure("C_Programming", "hari","Cp",5,"05/06/2003",new List<string>{"Cp001","Cp002","Cp003","Cp004","Cp005"}),
+   new BookStructure("C++","Ram","CPP",8,"04/15/2002",new List<string>{"CPP001","CPP002","CPP003","CPP004","CPP005","CPP006","CPP007","CPP008"}),
+   new BookStructure("Java","Sita","JV",3,"07/20/2005",new List<string>{"JV001","JV002","JV003"})
        };
 }

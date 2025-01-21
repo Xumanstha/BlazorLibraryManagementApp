@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\Blazor\\Librarymanagementapp\\Librarymanagementapp.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\Blazor\\BlazorLibraryManagementApp\\Librarymanagementapp.csproj",
       "projectName": "Librarymanagementapp",
-      "projectPath": "C:\\Users\\User\\Desktop\\Blazor\\Librarymanagementapp\\Librarymanagementapp.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\Blazor\\BlazorLibraryManagementApp\\Librarymanagementapp.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\Blazor\\Librarymanagementapp\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\Blazor\\BlazorLibraryManagementApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

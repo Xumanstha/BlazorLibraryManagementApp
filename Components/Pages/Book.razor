@@ -2,20 +2,20 @@
 @rendermode InteractiveServer
 <style>
     .main{
-        display:flex;
-        justify-content:space-around;
         width:100%;
         height:80vh;
         border: 1px solid black;
+        display:grid;
+        grid-template-columns: auto auto;
     }
     .borrow{
-        width:45%;
+        width:90%;
         height:80%;
         margin:auto;
         border:1px solid black;
     }
     .addbook{
-          width:45%;
+          width:90%;
         height:80%;
         margin:auto;
         border:1px solid black;
@@ -74,22 +74,41 @@
 </style>
 <div class="main">
 <div class="borrow">
+<h2 style="text-align:center">Search And Borrow Book</h2>
+<div class="inputs"><label>Title of Book:</label>
+<input type="text"  @bind="title"></div>
+@if(title==""||bookone==null)
+{
+<button @onclick="()=> searchTitle(title)">Search Book</button>
+}
+@if(bookone==null&&title!="")
+{
+    <p>There inputs No book</p>
+}
+@if(bookone!=null)
+{
+    <div class="inputs"><label>Name of Student:</label>
+<input type="text"></div>
+<div class="inputs"><label>ID of Student:</label>
+<input type="text" @bind="StudentId"></div>
+<div class="inputs"><label>Id of Book:</label>
+<input type="text" @bind="bookId"></div>
+<button @onclick="()=>Borrow()">Borrow Book</button>
+    <p>Title:@bookone.Title</p>
+    <p>Author:@bookone.Author</p>
+    <p>Book Count:@bookone.BookCount</p>
+    <h3>Enter Name And Id to borrow the book</h3>
+    <p style="display:@MessageVisible()?'block':'hide'">@message</p>
+}
+</div>
+</div>
+@* <div class="addbook">
 <h2 style="text-align:center">Borrow Book</h2>
 <div class="inputs"><label>Title of Book:</label>
 <input type="text"></div>
-<div class="inputs"><label>Name of Student:</label>
-<input type="text"></div>
-<div class="inputs">
-    <label>Code of book:</label>
-    <input type="text">
-</div>
-<div class="inputs">
-    <label>Id of student:</label>
-    <input type="text">
-</div>
-<button>Click to borrow</button>
-</div>
-<div class="addbook">
+<button>Click to Add</button>
+</div> *@
+@* <div class="addbook">
 <h2 style="text-align:center">Add New Book</h2>
 <div class="inputs"><label>Title of Book:</label>
 <input type="text"></div>
@@ -108,8 +127,7 @@
     <input type="date">
 </div>
 <button>Click to Add</button>
-</div>
-</div>
+</div> *@
 <div class="List">
     <h2 style="text-align:center;">List of Book</h2>
 <table>
@@ -124,7 +142,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var b in list.books)
+            @foreach(var b in BookList.books)
             {
 <tr>
     <td>@b.Title</td>
@@ -146,6 +164,58 @@
 </div>
 @code
 {
- BookList list=new BookList();
+   private string StudentId="";
+    private string bookId="";
+   private string title="";
+    private StudentStructure? std;
+    private BookStructure? bookone;
+    private string message="";
 
+private void searchTitle(String t)
+{
+bookone=BookList.books.Find(x=>x.Title==t);
+}
+private int Search()
+{
+ std=StudentList.students.Find(x=>x.Id==StudentId);
+ if(bookone != null && bookone.Bookid.Contains(bookId)&&std!=null)
+ {
+  return 1;
+ }
+ else{
+    return 0;
+ }
+}
+private void Borrow()
+{
+   if(Search()==1)
+   {
+    if(std!=null)
+    std.AddBooks(title);
+    if(bookone!=null)
+    {
+        bookone.RemoveBookid(bookId);
+    }
+    Clear();
+   } else{
+message="No data";
+MessageVisible();
+   }
+}
+private void Clear()
+{
+    title="";
+    bookone=null;
+    std=null;
+    bookId="";
+    StudentId="";
+}
+private int MessageVisible()
+{if(message!="")
+{
+    return 1;
+}else{
+    return 0;
+    }
+}
 }
