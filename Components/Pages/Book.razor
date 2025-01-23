@@ -127,11 +127,12 @@
 <div class="inputs"><label>Name:</label>
 <input type="text"></div>
 <div class="inputs"><label>ID of Student:</label>
-<input type="text" @bind="StudentId"></div>
+<input type="text" @bind="StudentId2"></div>
 @if(std1==null){
-        <button @onclick="()=>StudentDetails(StudentId)" class="List">Enter for Details</button>
+        <button @onclick="()=>StudentDetails(StudentId2)" class="List">Enter for Details</button>
         }else{
             <button class="retbtn" @onclick="()=>Return()">Return</button>
+             <p style="display:@MessageVisible()?'block':'hide'">@message</p>
         }
         @if(std1!=null)
         {
@@ -140,7 +141,7 @@
                     <div class="inputs"><label>Title Of Book:</label>
 <input type="text" @bind="Title1"></div>
                     <div class="inputs"><label>Id Of Book:</label>
-<input type="text" @bind="bookId"></div>
+<input type="text" @bind="bookId2"></div>
                     <p><label>Borrowed Books:</label>
                     @if (std1.BorrowedBooks != null && std1.BorrowedBooks.Any())
                     {
@@ -216,10 +217,13 @@
 {
     private string Title1="";
    private string StudentId="";
+   private string StudentId2="";
     private string bookId="";
+    private string bookId2="";
    private string title="";
     private StudentStructure? std,std1;
     private BookStructure? bookone;
+    private BookStructure? booktwo;
     private string message="";
 
 private void searchTitle(String t)
@@ -262,6 +266,9 @@ private void Clear()
     StudentId="";
     std1=null;
     Title1="";
+    bookId2="";
+    StudentId2="";
+    message="";
 }
 private int MessageVisible()
 {if(message!="")
@@ -273,14 +280,14 @@ private int MessageVisible()
 }
 private void StudentDetails(string s)
 {
-    if(StudentId!="")
-     std1=StudentList.students.Find(x=>x.Id==StudentId);
+    if(StudentId2!="")
+     std1=StudentList.students.Find(x=>x.Id==StudentId2);
 }
 private int Check()
 {
-    bookone=BookList.books.Find(x=>x.Title==Title1);
-    if(std1!=null&&bookone!=null){
-if(std1.BorrowedBooks.Contains(Title1)&&BookList.BookIDs.Contains(bookId)&&(!bookone.Bookid.Contains(bookId)))
+    booktwo=BookList.books.Find(x=>x.Title==Title1);
+    if(std1!=null&&booktwo!=null){
+if(std1.BorrowedBooks.Contains(Title1)&&BookList.BookIDs.Contains(bookId2)&&(!booktwo.Bookid.Contains(bookId2)))
 {
 return 1;
 }
@@ -292,11 +299,15 @@ return 0;
 }
 private void Return()
 {
-    if(Check()==1&&bookone!=null&&std1!=null)
+    if(Check()==1&&booktwo!=null&&std1!=null)
     {
-      bookone.AddBookid(bookId);
+      booktwo.AddBookid(bookId2);
       std1.RemoveBook(Title1);
       Clear();
+    }
+    else{
+        message="Invalid BookId or Student Title";
+        MessageVisible();
     }
 }
 }
