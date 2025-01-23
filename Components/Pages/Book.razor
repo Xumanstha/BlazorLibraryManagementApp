@@ -35,16 +35,16 @@
     {
         width:30%;
     }
-    .addbook .inputs
+    .returnbook .inputs
     {
     display: flex;
     width:80%;
     margin: 15px auto;
     }
-    .addbook .inputs label{
+    .returnbook .inputs label{
         width:45%;
     }
-    .addbook button{
+    .returnbook button{
            display:block;
         margin:auto;
     }
@@ -71,7 +71,23 @@
         border-collapse: collapse;
         text-align: center;
     }
+    .bookid{display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;}
+    .returnbook{
+          width:90%;
+        height:80%;
+        margin:auto;
+        border:1px solid black;
+        position:relative;
+    }
+    .retbtn{
+        position:absolute;
+        top:90%;
+        right:50%;
+    }
 </style>
+<h1 style="text-align:center">Welcome to Nepathya Library </h1>
 <div class="main">
 <div class="borrow">
 <h2 style="text-align:center">Search And Borrow Book</h2>
@@ -83,7 +99,7 @@
 }
 @if(bookone==null&&title!="")
 {
-    <p>There inputs No book</p>
+    <p>There is No book of This Title</p>
 }
 @if(bookone!=null)
 {
@@ -97,17 +113,51 @@
     <p>Title:@bookone.Title</p>
     <p>Author:@bookone.Author</p>
     <p>Book Count:@bookone.BookCount</p>
+    <ul class="bookid">
+        @foreach(var m in bookone.Bookid){
+            <li>@m</li>
+        }
+    </ul>
     <h3>Enter Name And Id to borrow the book</h3>
     <p style="display:@MessageVisible()?'block':'hide'">@message</p>
 }
 </div>
-</div>
-@* <div class="addbook">
-<h2 style="text-align:center">Borrow Book</h2>
-<div class="inputs"><label>Title of Book:</label>
+<div class="returnbook">
+<h2 style="text-align:center">Return Book</h2>
+<div class="inputs"><label>Name:</label>
 <input type="text"></div>
-<button>Click to Add</button>
-</div> *@
+<div class="inputs"><label>ID of Student:</label>
+<input type="text" @bind="StudentId"></div>
+@if(std1==null){
+        <button @onclick="()=>StudentDetails(StudentId)" class="List">Enter for Details</button>
+        }else{
+            <button class="retbtn" @onclick="()=>Return()">Return</button>
+        }
+        @if(std1!=null)
+        {
+             @if(std1.NumberOfBooks!=0)
+                   {
+                    <div class="inputs"><label>Title Of Book:</label>
+<input type="text" @bind="Title1"></div>
+                    <div class="inputs"><label>Id Of Book:</label>
+<input type="text" @bind="bookId"></div>
+                    <p><label>Borrowed Books:</label>
+                    @if (std1.BorrowedBooks != null && std1.BorrowedBooks.Any())
+                    {
+                        <ul>
+                            @foreach (var book in std1.BorrowedBooks)
+                            {
+                                <li>@book</li>
+                            }
+                        </ul>
+                    }
+                    </p>
+                   }
+
+        }
+</div>
+</div>
+
 @* <div class="addbook">
 <h2 style="text-align:center">Add New Book</h2>
 <div class="inputs"><label>Title of Book:</label>
@@ -164,10 +214,11 @@
 </div>
 @code
 {
+    private string Title1="";
    private string StudentId="";
     private string bookId="";
    private string title="";
-    private StudentStructure? std;
+    private StudentStructure? std,std1;
     private BookStructure? bookone;
     private string message="";
 
@@ -198,7 +249,7 @@ private void Borrow()
     }
     Clear();
    } else{
-message="No data";
+message="Invalid Bookid and Studentid! Please try again";
 MessageVisible();
    }
 }
@@ -209,6 +260,8 @@ private void Clear()
     std=null;
     bookId="";
     StudentId="";
+    std1=null;
+    Title1="";
 }
 private int MessageVisible()
 {if(message!="")
@@ -216,6 +269,34 @@ private int MessageVisible()
     return 1;
 }else{
     return 0;
+    }
+}
+private void StudentDetails(string s)
+{
+    if(StudentId!="")
+     std1=StudentList.students.Find(x=>x.Id==StudentId);
+}
+private int Check()
+{
+    bookone=BookList.books.Find(x=>x.Title==Title1);
+    if(std1!=null&&bookone!=null){
+if(std1.BorrowedBooks.Contains(Title1)&&BookList.BookIDs.Contains(bookId)&&(!bookone.Bookid.Contains(bookId)))
+{
+return 1;
+}
+else{
+    return 0;
+}
+}
+return 0;
+}
+private void Return()
+{
+    if(Check()==1&&bookone!=null&&std1!=null)
+    {
+      bookone.AddBookid(bookId);
+      std1.RemoveBook(Title1);
+      Clear();
     }
 }
 }
