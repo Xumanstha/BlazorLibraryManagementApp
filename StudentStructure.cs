@@ -10,6 +10,8 @@ public class StudentStructure
     public string? Semester { get; set; }
     public bool IsEdit { get; set; } = false;
     public List<string> BorrowedBooks = new List<string>();
+    
+    public List<string> BooksId = new List<string>();
     public  int NumberOfBooks { get; set; } = 0;
     public StudentStructure(string id, string name, string gender, string address, string phoneno, string faculty, string semester)
     {
@@ -36,17 +38,20 @@ public class StudentStructure
     public StudentStructure()
     {
         BorrowedBooks = new List<string>();
+        BooksId=new List<string>();
     }
-    public void AddBooks(string book)
+    public void AddBooks(string book,string bookid)
     {
         BorrowedBooks.Add(book);
+        BooksId.Add(bookid);
         NumberOfBooks++;
     }
-    public void RemoveBook(string book)
+    public void RemoveBook(string book,string bookid)
     {
-        if (BorrowedBooks.Contains(book))
+        if (BorrowedBooks.Contains(book)&&BooksId.Contains(bookid))
         {
             BorrowedBooks.Remove(book);
+            BooksId.Remove(bookid);
             NumberOfBooks--;
         }
 

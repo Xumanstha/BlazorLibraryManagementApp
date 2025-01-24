@@ -246,7 +246,7 @@ private void Borrow()
    if(Search()==1)
    {
     if(std!=null)
-    std.AddBooks(title);
+    std.AddBooks(title,bookId);
     if(bookone!=null)
     {
         bookone.RemoveBookid(bookId);
@@ -287,7 +287,7 @@ private int Check()
 {
     booktwo=BookList.books.Find(x=>x.Title==Title1);
     if(std1!=null&&booktwo!=null){
-if(std1.BorrowedBooks.Contains(Title1)&&BookList.BookIDs.Contains(bookId2)&&(!booktwo.Bookid.Contains(bookId2)))
+if(std1.BooksId.Contains(bookId2)&&BookList.BookIDs.Contains(bookId2)&&(!booktwo.Bookid.Contains(bookId2)))
 {
 return 1;
 }
@@ -302,7 +302,7 @@ private void Return()
     if(Check()==1&&booktwo!=null&&std1!=null)
     {
       booktwo.AddBookid(bookId2);
-      std1.RemoveBook(Title1);
+      std1.RemoveBook(Title1,bookId2);
       Clear();
     }
     else{

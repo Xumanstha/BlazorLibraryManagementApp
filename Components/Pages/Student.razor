@@ -113,6 +113,14 @@
     padding:20px;
     height:55%;
     }
+    .StdDetails ul
+    {
+        list-style: none;
+    }
+    .BorrowedBooks ul
+    {display: flex;
+    justify-content: space-between;
+    flex-direction: row;}
 </style>
 
 <div class="main">
@@ -177,15 +185,17 @@
         <button class="Studentremove" @onclick="()=>Remove(std)">Click to Remove Student</button>
         @if(std.IsEdit==false)
         {
-            <p>Name:@std.Name</p>
-            <p>Gender:@std.Gender</p>
-            <p>Phone No.:@std.PhoneNo</p>
-            <p>Address:@std.Address</p>
-            <p>Faculty:@std.Faculty</p>
-            <p>Semester:@std.Semester</p>
+            <ul>
+            <li>Name:@std.Name</li>
+            <li>Gender:@std.Gender</li>
+            <li>Phone No.:@std.PhoneNo</li>
+            <li>Address:@std.Address</li>
+            <li>Faculty:@std.Faculty</li>
+            <li>Semester:@std.Semester</li>
+            </ul>
               @if(std.NumberOfBooks!=0)
                    {
-                    <p><label>Borrowed Books:</label>
+                    <p class="BorrowedBooks"><label>Borrowed Books:</label>
                     @if (std.BorrowedBooks != null && std.BorrowedBooks.Any())
                     {
                         <ul>
