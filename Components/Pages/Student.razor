@@ -7,19 +7,16 @@
         padding: 0;
     }
 
-    .main {
-        display: flex;
-        border: 1px solid black;
-        justify-content: space-around;
-        width: 80vw;
-        height: 90vh;
-    }
 
     .StudentAdd {
         width: 40%;
-        height: 90%;
+        height: 80%;
         border: 1px solid black;
-        margin: auto;
+        visibility: @message2;
+        z-index:2;
+        position:fixed;
+        top:15%;
+        left:36%;
     }
 
     .StudentRemove {
@@ -27,6 +24,11 @@
         height: 90%;
         border: 1px solid black;
         margin: auto;
+        visibility: @message3;
+          z-index:3;
+        position:fixed;
+        top:15%;
+        left:36%;
     }
 
     .topic {
@@ -50,12 +52,19 @@
     .StudentRecord {
         margin-top: 3vh;
         height: auto;
-        width: 100%;
+        width: 80%;
         border: 1px solid black;
         padding: 25px;
+           visibility: @message4;
+          z-index:4;
+        position:fixed;
+        top:15%;
+        left:19%;
     }
 
     .StudentRecord input {
+    using System.Runtime.InteropServices;
+    using System.Runtime.InteropServices;
         width: 100%;
     }
 
@@ -121,10 +130,33 @@
     {display: flex;
     justify-content: space-between;
     flex-direction: row;}
+      .menu{
+        width:50%;
+        margin:auto;
+        height:70vh;
+        border:2px solid black;
+        z-index:1;
+        visibility: @message1;
+    }
+      .menu .buttons
+    {
+        width:90%;
+        height:10%;
+        border:1px solid black;
+        margin:5% auto;
+        display: block;
+        z-index:1;
+    }
 </style>
+<div class="menu">
+<button class="buttons" @onclick='()=>Call("add")'>Add New Student</button>
+<button class="buttons"  @onclick='()=>Call("search")'>Search Student</button>
+<button class="buttons" @onclick='()=>Call("liststudent")'>List Of Student</button>
+</div>
 
-<div class="main">
+
     <div class="StudentAdd">
+        <button class="btns fa-solid fa-arrow-left" @onclick='()=>Call("add")'></button>
         <p>
         <h2 class="topic">Add new Student</h2>
         </p>
@@ -154,7 +186,7 @@
         }
     </div>
     <div class="StudentRemove">
-
+<button class="btns fa-solid fa-arrow-left" @onclick='()=>Call("search")'></button>
         <p>
         <h2 class="topic">Search Student</h2>
         </p>
@@ -239,8 +271,8 @@
         </div>
     </div>
 
-</div>
 <div class="StudentRecord">
+     <button class="btns fa-solid fa-arrow-left" @onclick='()=>Call("liststudent")'></button>
     @* <button @onclick="()=>AddStudent()">Student's Record</button> *@
     <h1>All Student's Records</h1>
     <table>
@@ -289,6 +321,11 @@
 </div>
 @code
 {
+    private string message1="visible";
+    private string message2="hidden";
+    private string message3="hidden";
+    private string message4="hidden";
+    private int count=1;
     private StudentStructure? std;
     private string name = "";
     private string address = "";
@@ -340,5 +377,47 @@ new student("3", "Bikram", "Male", "Devinagar", "89374988747", "BScCSIT", "3")
     {
     StudentList.students.Remove(s);
       Clear();
+    }
+    private void Call(string s)
+    {
+        if(s=="add")
+        {
+            count++;
+            if(count%2==0)
+            {
+                message2="visible";
+                message1="hidden";
+            }
+            else{
+                message2="hidden";
+                message1="visible";
+            }
+        }
+        else if(s=="search")
+        {
+            count++;
+            if(count%2==0)
+            {
+                message3="visible";
+                message1="hidden";
+            }
+            else{
+                message3="hidden";
+                message1="visible";
+            }
+        }
+        else if(s=="liststudent")
+        {
+            count++;
+            if(count%2==0)
+            {
+                message4="visible";
+                message1="hidden";
+            }
+            else{
+                message4="hidden";
+                message1="visible";
+            }
+        }
     }
 }
