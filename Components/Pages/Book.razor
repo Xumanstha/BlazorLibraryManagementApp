@@ -21,10 +21,21 @@
         left:30%;
     }
     .addbook{
-          width:90%;
-        height:80%;
+          width:60%;
+        height:70%;
         margin:auto;
         border:1px solid black;
+          position:fixed;
+        top:10%;
+        left:25%;
+         z-index: 5;
+         visibility: @message5;
+    }
+    .newBook{
+           width:80%;
+        height:90%;
+        margin:auto;
+         display:@block;
     }
     .borrow button{
         display:block;
@@ -50,6 +61,8 @@
     }
     .returnbook .inputs label{
         width:45%;
+    using System.Diagnostics.Tracing;
+    using System.Diagnostics.Tracing;
     }
     .returnbook button{
            display:block;
@@ -137,12 +150,30 @@
         left:48%;
 
     }
+     .addbook .inputs
+    {
+    display: flex;
+    width:80%;
+    margin: 15px auto;
+    }
+    .addbook button{display: block;
+    margin:auto;}
+    .EnterCode{
+        width:50%;
+        height:50%;
+        border:1px solid black;
+        margin:auto;
+        display:@enterCode;
+    }
+    .EnterCode button{display: block;
+    margin:auto;}
 </style>
 <div class="menu">
 <h1 style="text-align:center">Welcome to Nepathya Library </h1>
 <button class="buttons" @onclick='()=>Call("Borrow")'>Search And Borrow Book</button>
 <button class="buttons" @onclick='()=>Call("Return")'>Return Book</button>
 <button class="buttons" @onclick='()=>Call("ListBook")'>List Of Book</button>
+<button class="buttons" @onclick='()=>Call("AddNewBook")'>Add New Book</button>
 </div>
 
 <div class="borrow">
@@ -216,26 +247,38 @@
         }
 </div>
 
-@* <div class="addbook">
+<div class="addbook">
+    <button class="btns fa-solid fa-arrow-left" @onclick='()=>Call("AddNewBook")'></button>
+    <div class="newBook">
 <h2 style="text-align:center">Add New Book</h2>
 <div class="inputs"><label>Title of Book:</label>
-<input type="text"></div>
+<input type="text" @bind="Title2"></div>
 <div class="inputs"><label>Name of Author:</label>
-<input type="text"></div>
+<input type="text" @bind="auth"></div>
 <div class="inputs">
     <label>Code of book:</label>
-    <input type="text">
+    <input type="text" @bind="code">
 </div>
 <div class="inputs">
     <label>No.of Book:</label>
-    <input type="number">
+    <input type="number" @bind="num">
 </div>
 <div class="inputs">
     <label>Date of Book Published:</label>
-    <input type="date">
+    <input type="date" @bind="Date">
 </div>
-<button>Click to Add</button>
-</div> *@
+<button @onclick='()=>AddNewBook(Title2,auth,code,num,Date?.ToString("yyyy-MM-dd") ?? "0000-00-00")'>Click to Add</button>
+    </div>
+<div class="EnterCode">
+    <h2 style="text-align:center;">Enter the Code for Book</h2>
+    <div class="inputs">
+    <label>Code of book @temp:</label>
+    <input type="text" @bind="code">
+    <button @onclick="()=>AddCode()">Click to Add</button>
+</div>
+</div>
+<p>@addbook</p>
+</div>
 <div class="List">
      <button class="btns fa-solid fa-arrow-left" @onclick='()=>Call("ListBook")'></button>
     <h2 style="text-align:center;">List of Book</h2>
@@ -274,9 +317,10 @@
 @code
 {
     private int count=1;
-
+private int temp=1;
  private string message3="hidden";
   private string message4="hidden";
+   private string message5="hidden";
     private string message1="hidden";
         private string message2="visible";
     private string Title1="";
@@ -285,11 +329,18 @@
     private string bookId="";
     private string bookId2="";
    private string title="";
+   private string auth="";
+   private string Title2="";
+   private int num=0;
+   private string code="";
+private DateTime? Date=null;
     private StudentStructure? std,std1;
     private BookStructure? bookone;
     private BookStructure? booktwo;
     private string message="";
-
+    private string enterCode="none";
+    private string addbook="";
+    private string block="block";
 private void searchTitle(String t)
 {
 bookone=BookList.books.Find(x=>x.Title==t);
@@ -333,6 +384,13 @@ private void Clear()
     bookId2="";
     StudentId2="";
     message="";
+    Title2="";
+    auth="";
+    code="";
+    Date=null;
+    num=0;
+    temp=1;
+    addbook="";
 }
 private int MessageVisible()
 {if(message!="")
@@ -417,5 +475,48 @@ private void Call(string s)
             message2="visible";
         }
     }
+    else if(s=="AddNewBook")
+    {
+          count++;
+        if(count%2==0)
+        {
+            message5="visible";
+            message2="hidden";
+        }
+        else{
+            message5="hidden";
+            message2="visible";
+        }
+    }
+    }
+    private void AddNewBook(string t,string a,string c,int n,string D)
+    {
+        searchTitle(t);
+        if(bookone==null&&t!=""&&a!=""&&c!=""&&n!=0&&D!=null){
+     BookList.books.Add(new BookStructure(t,a,c,0,D));
+     enterCode="block";
+     block="none";
+     searchTitle(t);
+     }
+     else if(bookone!=null)
+     {
+addbook="This book already exist";
+     }
+    }
+    private void AddCode()
+    {
+        if(!BookList.BookIDs.Contains(code)&&temp<=num)
+        {
+        BookList.BookIDs.Add(code);
+        if(bookone!=null){
+        bookone.AddBookid(code);
+        temp++;
+        }
+        }
+         if(temp>num){
+        Clear();
+        enterCode="none";
+        block="block";
+        }
     }
 }

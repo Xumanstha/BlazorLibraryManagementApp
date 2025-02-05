@@ -21,7 +21,7 @@
 
     .StudentRemove {
         width: 40%;
-        height: 90%;
+        height: 80%;
         border: 1px solid black;
         margin: auto;
         visibility: @message3;
@@ -99,7 +99,7 @@
         height: 3vh;
        position:absolute;
        right:10%;
-       top:78%;
+       top:60%;
     }
     .Edit:active{
         background-color:green;
@@ -109,7 +109,7 @@
         position:absolute;
         @* left:0px; *@
        right:5%;
-       top:88%;
+       top:68%;
     } 
     .Studentremove:active{
         background-color: red;
@@ -240,12 +240,13 @@
                     </p>
                    }
             }else{
-                 <p> <label>Name:</label><input type="text" @bind=std.Name></p>
-                 <p>Gender:@std.Gender</p>
-                   <p> <label>Phone No.:</label>   <input type="text" @bind=std.PhoneNo></p>
-                   <p>   <label>Address:</label> <input type="text" @bind=std.Address></p>
-                  <p>   <label>Faculty:</label><input type="text" @bind=std.Faculty></p>
-                   <p>     <label>Semester</label><input type="text" @bind=std.Semester></p>
+                <ul>
+ <li> <label>Name:</label><input type="text" @bind=std.Name></li>
+                 <li>Gender:@std.Gender</li>
+                   <li> <label>Phone No.:</label>   <input type="text" @bind=std.PhoneNo></li>
+                   <li>   <label>Address:</label> <input type="text" @bind=std.Address></li>
+                  <li>   <label>Faculty:</label><input type="text" @bind=std.Faculty></li>
+                   <li>     <label>Semester</label><input type="text" @bind=std.Semester></li>
                   @if(std.NumberOfBooks!=0)
                    {
                     <p><label>Borrowed Books:</label>
@@ -259,7 +260,9 @@
                         </ul>
                     }
                     </p>
+                
                    }
+                </ul>
                 
             }
         }
