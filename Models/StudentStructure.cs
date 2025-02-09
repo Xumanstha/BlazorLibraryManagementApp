@@ -1,7 +1,10 @@
+using System;
+
+namespace Librarymanagementapp.Models;
 
 public class StudentStructure
 {
-    public string? Id { get; set; }
+  public string? Id { get; set; }
     public string? Name { get; set; }
     public string? Gender { get; set; }
     public string? Address { get; set; }
@@ -56,4 +59,5 @@ public class StudentStructure
         }
 
     }
+
 }

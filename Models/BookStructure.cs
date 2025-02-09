@@ -1,4 +1,9 @@
-public class BookStructure{
+using System;
+
+namespace Librarymanagementapp.Models;
+
+public class BookStructure
+{
 public string? Author{get;set;}
 public string? Title{get;set;}
 public string?Id{get;set;}
@@ -36,4 +41,5 @@ public  List<string> Bookid = new List<string>();
       Bookid.Remove(book);
       BookCount--;
     }
+
 }
