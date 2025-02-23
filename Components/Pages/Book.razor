@@ -187,9 +187,8 @@
 {
 <button @onclick="()=> searchTitle(title)">Search Book</button>
 }
-@if(bookone==null&&title!="")
-{
-    <p>There is No book of This Title</p>
+@if(bookone==null){
+    <p>@messageSearch</p>
 }
 @if(bookone!=null)
 {
@@ -219,11 +218,12 @@
 <input type="text"></div>
 <div class="inputs"><label>ID of Student:</label>
 <input type="text" @bind="StudentId2"></div>
-@if(std1==null){
+@if(std1==null||StudentId2==""){
         <button @onclick="()=>StudentDetails(StudentId2)">Enter for Details</button>
-        }else{
-            <button class="retbtn" @onclick="()=>Return()">Return</button>
-             <p style="display:@MessageVisible()?'block':'hide'">@message</p>
+        }
+        @if(std1==null&&StudentId2!="")
+        {
+            <p>There is no student of this id</p>
         }
         @if(std1!=null)
         {
@@ -244,6 +244,12 @@
                         </ul>
                     }
                     </p>
+                      <button class="retbtn" @onclick="()=>Return()">Return</button>
+                      <p class style="display:@MessageVisible()?'block':'hide'">@message</p>
+                   }
+                   else if(std1.NumberOfBooks==0)
+                   {
+                       <p>There is no book to return</p>
                    }
 
         }
@@ -343,9 +349,15 @@ private DateTime? Date=null;
     private string enterCode="none";
     private string addbook="";
     private string block="block";
+    private string messageSearch="";
+    private string messageReturn="";
 private void searchTitle(String t)
 {
 bookone=BookList.books.Find(x=>x.Title==t);
+if(bookone==null)
+{
+    messageSearch="There is no book of this title";
+    }
 }
 private int Search()
 {
@@ -405,7 +417,12 @@ private int MessageVisible()
 private void StudentDetails(string s)
 {
     if(StudentId2!="")
-     std1=StudentList.students.Find(x=>x.Id==StudentId2);
+    { std1=StudentList.students.Find(x=>x.Id==StudentId2);
+    }
+    if(std1==null)
+    {
+        messageReturn="There is no student of this id";
+    }
 }
 private int Check()
 {
@@ -448,6 +465,7 @@ private void Call(string s)
      else{
         message1="hidden";
           message2="visible";
+          Clear();
      }
     }
     
@@ -462,6 +480,7 @@ private void Call(string s)
         else{
             message3="hidden";
              message2="visible";
+             Clear();
         }
     }
     else if(s=="ListBook")
@@ -475,6 +494,7 @@ private void Call(string s)
         else{
             message4="hidden";
             message2="visible";
+            Clear();
         }
     }
     else if(s=="AddNewBook")
@@ -488,6 +508,7 @@ private void Call(string s)
         else{
             message5="hidden";
             message2="visible";
+            Clear();
         }
     }
     }
